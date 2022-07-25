@@ -7,10 +7,12 @@ import {
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Home from './pages/Home/Home';
+import { Card } from './components/Card';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacter] = useState([]);
+  const [idPersonaje, setIdPersonaje] = useState(0);
   // const handleClick = () => {
   //   fetch('https://rickandmortyapi.com/api/character')
   //     .then(data => data.json())
@@ -33,6 +35,19 @@ const App = () => {
     getCharacter();
   }, []);
   console.log('data: ', characters);
+  console.log('personaje clickeado: ', idPersonaje);
+
+  const getCharacterById = async () => {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/${idPersonaje}`);
+    console.log(data);
+  };
+  useEffect(() => {
+    getCharacterById();
+  }, [idPersonaje]);
+
+  const getIdPersonaje = (id) => {
+    setIdPersonaje(id);
+  };
 
   // desestructuracion
   const obj = {
@@ -58,8 +73,13 @@ const App = () => {
         // isLoading ? <p>Loading...</p> : <></>
         isLoading && <p>Loading...</p>
       }
-      { characters?.map(character => <p key={character.id} >{character.name}</p>) }
+      {/* { characters?.map(character => <p key={character.id} >{character.name}</p>) } */}
       {/* <button onClick={handleClick} disabled={isLoading}>Click me!</button> */}
+      { characters?.map(character => <Card
+        character={character}
+        key={character.id}
+        getIdPersonaje={getIdPersonaje} />) }
+        {/* setIdPersonaje={setIdPersonaje} />) } */}
     </div>
   );
 };
