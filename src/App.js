@@ -8,11 +8,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Home from './pages/Home/Home';
 import { Card } from './components/Card';
+import useFetch from './hooks/CustomFetch/useFetch';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacter] = useState([]);
-  const [idPersonaje, setIdPersonaje] = useState(0);
+  const [idPersonaje, setIdPersonaje] = useState(1);
   // const handleClick = () => {
   //   fetch('https://rickandmortyapi.com/api/character')
   //     .then(data => data.json())
@@ -24,16 +25,23 @@ const App = () => {
   //   const json = await data.json();
   //   console.log('api: ', json.results);
   // };
+  const { dataFetch } = useFetch('https://rickandmortyapi.com/api/character');
   const getCharacter = async () => {
     setIsLoading(true);
-    const { data, status } = await await axios('https://rickandmortyapi.com/api/character');
+    // const { data, status } = await axios('https://rickandmortyapi.com/api/character');
+    // const { data } = await useFetch('https://rickandmortyapi.com/api/character');
     // console.log('api: ', data.results);
-    setCharacter(data.results);
+    // const { data, loading, error } = useFetch('https://rickandmortyapi.com/api/character');
+    // const { data } = await useFetch('https://rickandmortyapi.com/api/character');
+    // setCharacter(data.results);
+    // setCharacter(data);
+    setCharacter(dataFetch.data);
     setIsLoading(false);
   };
   useEffect(() => {
     getCharacter();
   }, []);
+  // }, [data]);
   console.log('data: ', characters);
   console.log('personaje clickeado: ', idPersonaje);
 
