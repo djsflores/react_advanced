@@ -25,7 +25,9 @@ const App = () => {
   //   const json = await data.json();
   //   console.log('api: ', json.results);
   // };
-  const { data, loading, error } = useFetch('https://rickandmortyapi.com/api/character');
+  // const { data, loading, error } = useFetch('https://rickandmortyapi.com/api/character');
+  const dataPersonajes = useFetch('https://rickandmortyapi.com/api/character');
+  const dataPersonajeId = useFetch(`https://rickandmortyapi.com/api/character/${idPersonaje}`);
   // console.log('dataFetch: ', dataFetch);
   // const getCharacter = async () => {
   //   setIsLoading(true);
@@ -55,9 +57,10 @@ const App = () => {
   };
 
   const getCharacterById = () => {
-    fetch(`https://rickandmortyapi.com/api/character/${idPersonaje}`)
-      .then(resp => resp.json())
-      .then(json => console.log(json));
+    // fetch(`https://rickandmortyapi.com/api/character/${idPersonaje}`)
+    //   .then(resp => resp.json())
+    //   .then(json => console.log(json));
+    console.log(dataPersonajeId);
   };
 
   useEffect(() => {
@@ -88,10 +91,12 @@ const App = () => {
         // isLoading ? <p>Loading...</p> : <></>
         // isLoading && <p>Loading...</p>
       }
+      { dataPersonajes?.loading && <p>Loading...</p> }
       {/* { characters?.map(character => <p key={character.id} >{character.name}</p>) } */}
       {/* <button onClick={handleClick} disabled={isLoading}>Click me!</button> */}
       {/* { characters?.map(character => <Card */}
-      { data?.map(character => <Card
+      {/* { data?.map(character => <Card */}
+      { dataPersonajes?.data?.results.map(character => <Card
         character={character}
         key={character.id}
         getIdPersonaje={getIdPersonaje} />) }
