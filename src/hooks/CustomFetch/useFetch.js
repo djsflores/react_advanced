@@ -11,14 +11,14 @@ const useFetch = (url) => {
     data: null,
   });
 
-  const handleFetch = async () => {
+  const getData = async () => {
     try {
       const { data } = await axios(url);
       setDataFetch({
         loading: false,
         error: null,
         // data,
-        data: data?.results,
+        data: data.results,
       });
     } catch (error) {
       setDataFetch({
@@ -29,13 +29,14 @@ const useFetch = (url) => {
   };
 
   useEffect(() => {
-    handleFetch();
-  }, []);
+    getData();
+  }, [url]);
 
   // return resp;
-  return ({
-    dataFetch,
-  });
+  // return ({
+  //   dataFetch,
+  // });
+  return dataFetch;
 };
 
 export default useFetch;

@@ -11,8 +11,8 @@ import { Card } from './components/Card';
 import useFetch from './hooks/CustomFetch/useFetch';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [characters, setCharacter] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [characters, setCharacter] = useState([]);
   const [idPersonaje, setIdPersonaje] = useState(1);
   // const handleClick = () => {
   //   fetch('https://rickandmortyapi.com/api/character')
@@ -25,9 +25,10 @@ const App = () => {
   //   const json = await data.json();
   //   console.log('api: ', json.results);
   // };
-  const { dataFetch } = useFetch('https://rickandmortyapi.com/api/character');
-  const getCharacter = async () => {
-    setIsLoading(true);
+  const { data, loading, error } = useFetch('https://rickandmortyapi.com/api/character');
+  // console.log('dataFetch: ', dataFetch);
+  // const getCharacter = async () => {
+  //   setIsLoading(true);
     // const { data, status } = await axios('https://rickandmortyapi.com/api/character');
     // const { data } = await useFetch('https://rickandmortyapi.com/api/character');
     // console.log('api: ', data.results);
@@ -35,27 +36,33 @@ const App = () => {
     // const { data } = await useFetch('https://rickandmortyapi.com/api/character');
     // setCharacter(data.results);
     // setCharacter(data);
-    setCharacter(dataFetch.data);
-    setIsLoading(false);
-  };
-  useEffect(() => {
-    getCharacter();
-  }, []);
+  //   setCharacter(dataFetch.data);
+  //   setIsLoading(false);
+  // };
+  // useEffect(() => {
+  //   getCharacter();
+  // }, []);
   // }, [data]);
-  console.log('data: ', characters);
-  console.log('personaje clickeado: ', idPersonaje);
+  // console.log('data: ', characters);
+  // console.log('personaje clickeado: ', idPersonaje);
 
-  const getCharacterById = async () => {
-    const { data } = await axios(`https://rickandmortyapi.com/api/character/${idPersonaje}`);
-    console.log(data);
-  };
-  useEffect(() => {
-    getCharacterById();
-  }, [idPersonaje]);
-
+  // const getCharacterById = async () => {
+  //   const { data } = await axios(`https://rickandmortyapi.com/api/character/${idPersonaje}`);
+  //   console.log(data);
+  // };
   const getIdPersonaje = (id) => {
     setIdPersonaje(id);
   };
+
+  const getCharacterById = () => {
+    fetch(`https://rickandmortyapi.com/api/character/${idPersonaje}`)
+      .then(resp => resp.json())
+      .then(json => console.log(json));
+  };
+
+  useEffect(() => {
+    getCharacterById();
+  }, [idPersonaje]);
 
   // desestructuracion
   const obj = {
@@ -79,11 +86,12 @@ const App = () => {
         // isLoading ? <p>Loading...</p> : ""
         // isLoading ? <p>Loading...</p> : null
         // isLoading ? <p>Loading...</p> : <></>
-        isLoading && <p>Loading...</p>
+        // isLoading && <p>Loading...</p>
       }
       {/* { characters?.map(character => <p key={character.id} >{character.name}</p>) } */}
       {/* <button onClick={handleClick} disabled={isLoading}>Click me!</button> */}
-      { characters?.map(character => <Card
+      {/* { characters?.map(character => <Card */}
+      { data?.map(character => <Card
         character={character}
         key={character.id}
         getIdPersonaje={getIdPersonaje} />) }
